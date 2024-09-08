@@ -8,5 +8,26 @@ const router = express.Router();
 
 //to create a unique id
 const { v4: uuidv4 } = require("uuid");
-//Create the product
 
+//define secret key for signing the token
+const client_secret = "abc-store-api";
+
+//vertify token
+const authenticateToken = (req, res, next) => {
+    const tokenHeader = req.headers.authorization;
+  
+    if (!tokenHeader) {
+      return res.status(401).send("Token Required!!");
+    }
+    const token = tokenHeader.split(" ")[1];
+  
+    jwt.verify(token, client_secret, async (err, decoded) => {
+      if (err) {
+        return res.status(401).send("Invalid token");
+      }
+      req.user = decoded;
+      next();
+    });
+  };
+
+  
