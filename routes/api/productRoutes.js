@@ -1,4 +1,4 @@
-const Product = require("../models/product");
+const Product = require("../../models/product");
 // const mongooseConnectionFile = require("../db/mongoose");
 const express = require("express");
 //create a new instance of an Express router
@@ -7,10 +7,10 @@ const router = express.Router();
 // //to create a unique id
 // const { v4: uuidv4 } = require("uuid");
 
-const {authenticateToken} = require("../jwt/auth");
+const {authenticateToken} = require("../../jwt/auth");
 
   /***************Get all the products************************/
-  router.get("/products",authenticateToken,async(req,res)=>{
+  router.get("/",authenticateToken,async(req,res)=>{
     try{
         const product = await Product.find();
         res.json(product);
@@ -22,7 +22,7 @@ const {authenticateToken} = require("../jwt/auth");
 
 
   /************create the product***********************/
-  router.post("/products",authenticateToken,async(req,res)=>{
+  router.post("/",authenticateToken,async(req,res)=>{
     try{
         const product = new Product(req.body);
         await product.save();
@@ -34,7 +34,7 @@ const {authenticateToken} = require("../jwt/auth");
   });
 
   /**************update the product quantity********************/
-  router.put("/products/:id",authenticateToken,async(req,res)=>{
+  router.put("/:id",authenticateToken,async(req,res)=>{
    const _id = req.params.id;
    const updates = req.body;  // The fields to be updated are sent in the request body
     try{

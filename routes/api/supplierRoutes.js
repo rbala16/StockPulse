@@ -1,13 +1,13 @@
-const Supplier = require('../models/supplierModel');
+const Supplier = require('../../models/supplier');
 
 const express = require("express");
 //create a new instance of an Express router
 const router = express.Router();
 
-const {authenticateToken} = require("../jwt/auth");
+const {authenticateToken} = require("../../jwt/auth");
 
   /***************Create a new supplier************************/
-  router.post("/suppliers",authenticateToken,async(req,res)=>{
+  router.post("/",authenticateToken,async(req,res)=>{
     try {
         const supplier = new Supplier(req.body);
         await supplier.save();
@@ -18,7 +18,7 @@ const {authenticateToken} = require("../jwt/auth");
   })
 
     /***************Get all suppliers************************/
-    router.get("/suppliers",authenticateToken,async(req,res)=>{
+    router.get("/",authenticateToken,async(req,res)=>{
         try {
             const suppliers = await Supplier.find();
             res.json(suppliers);
