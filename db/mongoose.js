@@ -13,10 +13,13 @@ const dbName = process.env.DB_NAME;
 
 const dbConnectionString = `${dbProtocol}://${dbHost}:${dbPort}/${dbName}`;
 
+console.log(dbConnectionString);
+
 mongoose
   .connect(dbConnectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 10000, // 10 seconds timeout to ensure connection
   })
   .then(() => {
     console.log("Connected to database");

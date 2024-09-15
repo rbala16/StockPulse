@@ -6,7 +6,9 @@ const routes = require("./routes");
 const port = process.env.PORT || 8080;
 
 // use the router in your app
-app.use(express.json(),routes);
+app.use(express.json());  // Handles JSON request bodies
+app.use(routes);          // Apply your routes
+
 
 // app.use(routes);
 
