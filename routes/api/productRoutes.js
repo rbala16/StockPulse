@@ -1,4 +1,5 @@
 const Product = require("../../models/product");
+const mongooseConnectionFile = require("../../db/mongoose");
 
 const express = require("express");
 //create a new instance of an Express router
