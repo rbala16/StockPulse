@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    quantity:{
+    quantity:{   //current stock level
         type:Number,
         default:0,
     },
