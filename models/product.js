@@ -11,6 +11,14 @@ const productSchema = new mongoose.Schema({
         required:true,
         unique:true,
     },
+    reorderThreshold:{
+      type:Number,
+      default:10
+    },
+    reorderInProgress: {
+        type: Boolean,
+        default: false
+    },
     quantity:{
         type:Number,
         default:0,

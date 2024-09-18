@@ -6,6 +6,7 @@ const express = require("express");
 const router = express.Router();
 
 const {authenticateToken} = require("../../jwt/auth");
+const { notifyLowStock } = require("../../utils/websocket");
 
   /***************Get all the products************************/
   router.get("/",authenticateToken,async(req,res)=>{
@@ -45,6 +46,11 @@ const {authenticateToken} = require("../../jwt/auth");
     product.quantity = req.body.quantity;
      // Save the updated product
     await product.save();
+
+     // If real-time update is necessary, trigger WebSocket notification(notify if stock is low)
+     if(product.quantity < product.lowStockThreshold){
+      notifyLowStock(product);
+     }
      // Respond with the updated product
       res.send(product);
  }

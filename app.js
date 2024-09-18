@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 //define port 
 const port = process.env.PORT || 8080;
+const {initializeWebSocket} = require("./utils/websocket");
+
 //define router in your app
 const routes = require("./routes/index");
 
@@ -13,6 +15,10 @@ app.use(express.json(),routes);  // Handles JSON request bodies
 
 // app.use(routes);
 
-app.listen(port,()=>{
+const server = app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);
+
+    // Initialize WebSocket
+initializeWebSocket(server);
 })
+
