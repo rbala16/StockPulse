@@ -2,8 +2,8 @@ const cron = require("node-cron");
 const Product = require("./models/Product");
 const Reorder = require("./models/Reorder");
 
-// Schedule the job to run every day at midnight
-cron.schedule("0 0 * * *", async () => {
+// Schedule the job to run every hour
+cron.schedule('0 * * * *', async () => {
   try {
     console.log(
       "Cron job running to check for products below reorderThreshold..."
