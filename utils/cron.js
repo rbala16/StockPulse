@@ -1,9 +1,9 @@
 const cron = require("node-cron");
-const Product = require("./models/Product");
-const Reorder = require("./models/Reorder");
-
+const Product = require("../models/product");
+const Reorder = require("../models/reOrder");
+const mongooseConnectionFile = require("../db/mongoose");
 // Schedule the job to run every hour
-cron.schedule('0 * * * *', async () => {
+cron.schedule("* * * * *", async () => {
   try {
     console.log(
       "Cron job running to check for products below reorderThreshold..."
@@ -11,21 +11,35 @@ cron.schedule('0 * * * *', async () => {
 
     // Find products that need reordering
     const productsToReorder = await Product.find({
-      quantity: { $lt: "reorderThreshold" }, // Below threshold
-      reorderInProgress: false, // No reorder in progress
+      $expr: {
+        $lt: ['$quantity', '$reorderThreshold'],
+      },
+      reorderInProgress: false,
     });
 
-    for (let product of productsToReorder) {
+    if (productsToReorder.length === 0) {
+        console.log("No products below reorderThreshold at this time.");
+    }
+     else {
+        console.log(`Found ${productsToReorder.length} products to reorder.`);
+    }
+
+    for (const product of productsToReorder) {
       console.log(`Initiating reorder for product: ${product.name}`);
 
-      // Calculate reorder quantity 
+      // Calculate reorder quantity
       const reorderQuantity = calculateReorderQuantity(product);
 
       // Create a new reorder document
-      await Reorder.create({
+      const reorder = await Reorder.create({
         productId: product._id,
-        quantity: reorderQuantity,
+        productName: product.name,
+        SKU: product.SKU,
+        quantityOrdered: reorderQuantity,
+        supplier: product.supplier,
       });
+
+      // await Reorder.save();
 
       // Update the product to mark reorderInProgress as true
       product.reorderInProgress = true;

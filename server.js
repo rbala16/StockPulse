@@ -4,6 +4,8 @@ const app = express();
 //define port 
 const port = process.env.PORT || 8080;
 const {initializeWebSocket} = require("./utils/websocket");
+// Import the cron job
+const cron = require("./utils/cron");
 
 //define router in your app
 const routes = require("./routes/index");

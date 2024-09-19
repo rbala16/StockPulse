@@ -5,17 +5,32 @@ const reorderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
   },
-  quantity: {
+  productName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  SKU: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  quantityOrdered: {
     type: Number, // Quantity to reorder
     required: true,
   },
-  createdAt: {
+  supplier: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Supplier", //reference to Supplier model
+  },
+  reorderDate: {
     type: Date,
     default: Date.now,
   },
+
   status: {
     type: String,
-    enum: ['Pending', 'Completed', 'Cancelled'],
+    enum: ["Pending", "Completed", "Cancelled"],
     default: "Pending", // Can be 'Pending', 'Completed', or 'Cancelled'
   },
 });

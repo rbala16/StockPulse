@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema({
     },
     reorderInProgress: {
         type: Boolean,
-        default: false
+        default: false,
     },
     quantity:{   //current stock level
         type:Number,
